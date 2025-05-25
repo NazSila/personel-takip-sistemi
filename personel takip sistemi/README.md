@@ -62,14 +62,7 @@ python app.py
 http://127.0.0.1:5000
 ```
 
-## 📷 Ekran Görselleri
 
-> Ekran görüntüleri ve JSON çıktıları bu klasöre eklenecek.
-> Örneğin: login ekranı, dashboard, rapor sayfası...
-
-## 📹 Demo Video
-
-[Google Drive Bağlantısı Buraya Eklenecek]
 
 ## 🧠 Öğrenilenler
 
