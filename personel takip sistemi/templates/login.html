@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Giriş Yap - Personel Takip Sistemi</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        .hero.is-fullheight {
+            min-height: 100vh;
+        }
+        .login-logo {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        .login-logo i {
+            font-size: 3rem;
+            color: #00d1b2;
+        }
+    </style>
+</head>
+<body>
+    <section class="hero is-fullheight">
+        <div class="hero-body">
+            <div class="container">
+                <div class="columns is-centered">
+                    <div class="column is-4">
+                        <div class="login-logo">
+                            <i class="fas fa-users"></i>
+                            <h1 class="title">Personel Takip</h1>
+                        </div>
+                        <div class="box">
+                            <h2 class="subtitle has-text-centered">Giriş Yap</h2>
+                            <form method="POST">
+                                <div class="field">
+                                    <label class="label">Kullanıcı Adı</label>
+                                    <div class="control has-icons-left">
+                                        <input class="input" type="text" name="username" placeholder="Kullanıcı adınız" required>
+                                        <span class="icon is-small is-left">
+                                            <i class="fas fa-user"></i>
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div class="field">
+                                    <label class="label">Şifre</label>
+                                    <div class="control has-icons-left">
+                                        <input class="input" type="password" name="password" placeholder="Şifreniz" required>
+                                        <span class="icon is-small is-left">
+                                            <i class="fas fa-lock"></i>
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div class="field">
+                                    <div class="control">
+                                        <button type="submit" class="button is-primary is-fullwidth">
+                                            Giriş Yap
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="has-text-centered mt-4">
+                                    <p>Hesabınız yok mu? <a href="/kayit">Kayıt Ol</a></p>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+</html> 

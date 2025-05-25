@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="columns">
+    <div class="column">
+        <div class="card">
+            <div class="card-content">
+                <p class="title is-4">Toplam Personel</p>
+                <p class="subtitle is-6">{{ toplam_personel }}</p>
+            </div>
+        </div>
+    </div>
+    <div class="column">
+        <div class="card">
+            <div class="card-content">
+                <p class="title is-4">Aktif Personel</p>
+                <p class="subtitle is-6">{{ aktif_personel }}</p>
+            </div>
+        </div>
+    </div>
+    <div class="column">
+        <div class="card">
+            <div class="card-content">
+                <p class="title is-4">Ortalama Maaş</p>
+                <p class="subtitle is-6">₺{{ ortalama_maas }}</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="columns mt-4">
+    <div class="column">
+        <div class="card">
+            <div class="card-header">
+                <p class="card-header-title">Son Eklenen Personeller</p>
+            </div>
+            <div class="card-content">
+                <table class="table is-fullwidth">
+                    <thead>
+                        <tr>
+                            <th>Ad Soyad</th>
+                            <th>Pozisyon</th>
+                            <th>İşe Başlama</th>
+                            <th>Durum</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for p in son_personeller %}
+                        <tr>
+                            <td>{{ p.ad }} {{ p.soyad }}</td>
+                            <td>{{ p.pozisyon }}</td>
+                            <td>{{ p.baslangic_tarihi.strftime('%d.%m.%Y') }}</td>
+                            <td>
+                                {% if p.durum == 'Aktif' %}
+                                <span class="tag is-success">Aktif</span>
+                                {% else %}
+                                <span class="tag is-danger">Pasif</span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% else %}
+                        <tr>
+                            <td colspan="4" class="has-text-centered">Kayıt bulunamadı.</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

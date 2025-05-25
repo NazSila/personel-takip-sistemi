@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="columns is-centered">
+    <div class="column is-6">
+        <div class="card">
+            <div class="card-header">
+                <p class="card-header-title">Personel Çıkış Kaydı Ekle</p>
+            </div>
+            <div class="card-content">
+                <form method="POST">
+                    <div class="field">
+                        <label class="label">Personel (Giriş Kaydı)</label>
+                        <div class="control">
+                            <div class="select is-fullwidth">
+                                <select name="giris_id" required>
+                                    <option value="">Seçiniz</option>
+                                    {% for giris in girisler %}
+                                    <option value="{{ giris.id }}">{{ giris.personel.ad }} {{ giris.personel.soyad }} - {{ giris.giris_zamani.strftime('%d.%m.%Y %H:%M') }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label class="label">Çıkış Zamanı</label>
+                        <div class="control">
+                            <input class="input" type="datetime-local" name="cikis_zamani" required>
+                        </div>
+                    </div>
+                    <div class="field is-grouped">
+                        <div class="control">
+                            <button type="submit" class="button is-primary">Kaydet</button>
+                        </div>
+                        <div class="control">
+                            <a href="{{ url_for('personel_giris_cikis') }}" class="button is-light">İptal</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

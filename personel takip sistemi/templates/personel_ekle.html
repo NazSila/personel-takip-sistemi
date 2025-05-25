@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="columns is-centered">
+    <div class="column is-8">
+        <div class="card">
+            <div class="card-header">
+                <p class="card-header-title">Yeni Personel Ekle</p>
+            </div>
+            <div class="card-content">
+                <form method="POST">
+                    <div class="columns">
+                        <div class="column">
+                            <div class="field">
+                                <label class="label">Ad</label>
+                                <div class="control">
+                                    <input class="input" type="text" name="ad" placeholder="Ad" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="column">
+                            <div class="field">
+                                <label class="label">Soyad</label>
+                                <div class="control">
+                                    <input class="input" type="text" name="soyad" placeholder="Soyad" required>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="columns">
+                        <div class="column">
+                            <div class="field">
+                                <label class="label">Pozisyon</label>
+                                <div class="control">
+                                    <input class="input" type="text" name="pozisyon" placeholder="Pozisyon" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="column">
+                            <div class="field">
+                                <label class="label">Maaş</label>
+                                <div class="control">
+                                    <input class="input" type="number" name="maas" placeholder="Maaş" step="0.01" required>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="columns">
+                        <div class="column">
+                            <div class="field">
+                                <label class="label">İşe Başlama Tarihi</label>
+                                <div class="control">
+                                    <input class="input" type="date" name="baslangic_tarihi" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="column">
+                            <div class="field">
+                                <label class="label">Durum</label>
+                                <div class="control">
+                                    <div class="select is-fullwidth">
+                                        <select name="durum" required>
+                                            <option>Aktif</option>
+                                            <option>Pasif</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="field is-grouped">
+                        <div class="control">
+                            <button type="submit" class="button is-primary">Kaydet</button>
+                        </div>
+                        <div class="control">
+                            <a href="/personel" class="button is-light">İptal</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

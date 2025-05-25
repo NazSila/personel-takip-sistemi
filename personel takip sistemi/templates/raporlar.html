@@ -1,0 +1,120 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1 class="title">Raporlar</h1>
+
+<div class="columns">
+    <div class="column is-4">
+        <div class="card">
+            <div class="card-header">
+                <p class="card-header-title">Pozisyon Dağılımı</p>
+            </div>
+            <div class="card-content">
+                <canvas id="pozisyonChart"></canvas>
+            </div>
+        </div>
+    </div>
+    <div class="column is-4">
+        <div class="card">
+            <div class="card-header">
+                <p class="card-header-title">Maaş Dağılımı</p>
+            </div>
+            <div class="card-content">
+                <canvas id="maasChart"></canvas>
+            </div>
+        </div>
+    </div>
+    <div class="column is-4">
+        <div class="card">
+            <div class="card-header">
+                <p class="card-header-title">İşe Alım Trendi</p>
+            </div>
+            <div class="card-content">
+                <canvas id="trendChart"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="columns mt-4">
+    <div class="column">
+        <div class="card">
+            <div class="card-header">
+                <p class="card-header-title">Maaş Raporu</p>
+            </div>
+            <div class="card-content">
+                <table class="table is-fullwidth">
+                    <thead>
+                        <tr>
+                            <th>Pozisyon</th>
+                            <th>Ortalama Maaş</th>
+                            <th>En Düşük Maaş</th>
+                            <th>En Yüksek Maaş</th>
+                            <th>Personel Sayısı</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for pozisyon, ort, minm, maxm, adet in maas_raporu %}
+                        <tr>
+                            <td>{{ pozisyon }}</td>
+                            <td>₺{{ '%.2f'|format(ort or 0) }}</td>
+                            <td>₺{{ '%.2f'|format(minm or 0) }}</td>
+                            <td>₺{{ '%.2f'|format(maxm or 0) }}</td>
+                            <td>{{ adet }}</td>
+                        </tr>
+                        {% else %}
+                        <tr>
+                            <td colspan="5" class="has-text-centered">Kayıt bulunamadı.</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    // Pozisyon Dağılımı Grafiği
+    const pozisyonCtx = document.getElementById('pozisyonChart').getContext('2d');
+    new Chart(pozisyonCtx, {
+        type: 'pie',
+        data: {
+            labels: {{ pozisyon_labels|tojson }},
+            datasets: [{
+                data: {{ pozisyon_counts|tojson }},
+                backgroundColor: ['#00d1b2', '#3273dc', '#ffdd57', '#ff3860', '#23d160', '#b86bff', '#ffb347']
+            }]
+        }
+    });
+
+    // Maaş Dağılımı Grafiği
+    const maasCtx = document.getElementById('maasChart').getContext('2d');
+    new Chart(maasCtx, {
+        type: 'bar',
+        data: {
+            labels: {{ maas_araliklari|tojson }},
+            datasets: [{
+                data: {{ maas_counts|tojson }},
+                backgroundColor: '#00d1b2'
+            }]
+        }
+    });
+
+    // İşe Alım Trendi Grafiği
+    const trendCtx = document.getElementById('trendChart').getContext('2d');
+    new Chart(trendCtx, {
+        type: 'line',
+        data: {
+            labels: {{ aylar|tojson }},
+            datasets: [{
+                data: {{ ay_sayilari|tojson }},
+                borderColor: '#00d1b2',
+                tension: 0.1,
+                fill: false
+            }]
+        }
+    });
+</script>
+{% endblock %} 

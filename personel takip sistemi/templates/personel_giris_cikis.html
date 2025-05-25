@@ -1,0 +1,148 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1 class="title">Personel Giriş-Çıkış Kayıtları</h1>
+
+<div class="mb-4">
+    <a href="{{ url_for('giris_ekle') }}" class="button is-success mr-2"><i class="fas fa-sign-in-alt"></i> Giriş Ekle</a>
+    <a href="{{ url_for('cikis_ekle') }}" class="button is-danger"><i class="fas fa-sign-out-alt"></i> Çıkış Ekle</a>
+</div>
+
+<div class="box mb-4">
+    <form class="columns is-multiline">
+        <div class="column is-3">
+            <div class="field">
+                <label class="label">Tarih</label>
+                <div class="control">
+                    <input class="input" type="date" name="tarih" value="{{ request.args.get('tarih', '') }}">
+                </div>
+            </div>
+        </div>
+        <div class="column is-4">
+            <div class="field">
+                <label class="label">Personel Ara</label>
+                <div class="control has-icons-left">
+                    <input class="input" type="text" name="arama" placeholder="Ad veya soyad...">
+                    <span class="icon is-small is-left">
+                        <i class="fas fa-search"></i>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="column is-3">
+            <div class="field">
+                <label class="label">Durum</label>
+                <div class="control">
+                    <div class="select is-fullwidth">
+                        <select name="durum">
+                            <option>Tümü</option>
+                            <option>Devam Ediyor</option>
+                            <option>Tamamlandı</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="column is-2">
+            <button class="button is-link is-fullwidth mt-5">Filtrele</button>
+        </div>
+    </form>
+</div>
+
+<div class="card">
+    <div class="card-content">
+        <table class="table is-fullwidth is-striped">
+            <thead>
+                <tr>
+                    <th>Personel</th>
+                    <th>Giriş Zamanı</th>
+                    <th>Çıkış Zamanı</th>
+                    <th>Toplam Süre</th>
+                    <th>Durum</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for giris in girisler %}
+                <tr>
+                    <td>{{ giris.personel.ad }} {{ giris.personel.soyad }}</td>
+                    <td>{{ giris.giris_zamani.strftime('%d.%m.%Y %H:%M') }}</td>
+                    <td>
+                        {% if giris.cikis_zamani %}
+                            {{ giris.cikis_zamani.strftime('%d.%m.%Y %H:%M') }}
+                        {% else %}-{% endif %}
+                    </td>
+                    <td>
+                        {% if giris.cikis_zamani %}
+                            {% set fark = giris.cikis_zamani - giris.giris_zamani %}
+                            {{ (fark.seconds // 3600) }} saat {{ ((fark.seconds // 60) % 60) }} dakika
+                        {% else %}-{% endif %}
+                    </td>
+                    <td>
+                        {% if giris.cikis_zamani %}
+                            <span class="tag is-success">Tamamlandı</span>
+                        {% else %}
+                            <span class="tag is-warning">Devam Ediyor</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="5" class="has-text-centered">Kayıt bulunamadı.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="columns mt-4">
+    <div class="column is-6">
+        <div class="card">
+            <div class="card-header">
+                <p class="card-header-title">Günlük Özet</p>
+            </div>
+            <div class="card-content">
+                <div class="content">
+                    <p><strong>Toplam Personel:</strong> {{ toplam_personel }}</p>
+                    <p><strong>Giriş Yapan:</strong> {{ giris_yapan }}</p>
+                    <p><strong>Çıkış Yapan:</strong> {{ cikis_yapan }}</p>
+                    <p><strong>Ortalama Çalışma Süresi:</strong> {{ ortalama_sure }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="column is-6">
+        <div class="card">
+            <div class="card-header">
+                <p class="card-header-title">Günlük Giriş-Çıkış Grafiği</p>
+            </div>
+            <div class="card-content">
+                <canvas id="girisCikisChart"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    // Grafik için örnek veri
+    const ctx = document.getElementById('girisCikisChart').getContext('2d');
+    new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: ['08:00', '09:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00'],
+            datasets: [{
+                label: 'Giriş',
+                data: [5, 10, 15, 20, 22, 22, 22, 22, 22, 22, 22],
+                borderColor: '#00d1b2',
+                tension: 0.1
+            }, {
+                label: 'Çıkış',
+                data: [0, 0, 0, 0, 2, 5, 8, 12, 15, 18, 20],
+                borderColor: '#ff3860',
+                tension: 0.1
+            }]
+        }
+    });
+</script>
+{% endblock %}

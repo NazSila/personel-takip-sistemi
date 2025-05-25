@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personel Takip Sistemi</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        .navbar-item img {
+            max-height: 2.5rem;
+        }
+        .sidebar {
+            min-height: calc(100vh - 3.25rem);
+            background-color: #f5f5f5;
+        }
+        .main-content {
+            padding: 2rem;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar is-primary" role="navigation" aria-label="main navigation">
+        <div class="navbar-brand">
+            <a class="navbar-item" href="/">
+                <span class="icon">
+                    <i class="fas fa-users"></i>
+                </span>
+                <span>Personel Takip</span>
+            </a>
+        </div>
+        <div class="navbar-menu">
+            <div class="navbar-end">
+                {% if current_user.is_authenticated %}
+                <div class="navbar-item has-dropdown is-hoverable">
+                    <a class="navbar-link">
+                        <span class="icon"><i class="fas fa-user"></i></span>
+                        {{ current_user.first_name }} {{ current_user.last_name }}
+                    </a>
+                    <div class="navbar-dropdown is-right">
+                        <a class="navbar-item" href="#" disabled>
+                            {{ current_user.username }}
+                        </a>
+                        <hr class="navbar-divider">
+                        <a class="navbar-item" href="{{ url_for('logout') }}">
+                            <span class="icon"><i class="fas fa-sign-out-alt"></i></span>
+                            Çıkış Yap
+                        </a>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+
+    <div class="columns">
+        <div class="column is-2 sidebar">
+            <aside class="menu">
+                <p class="menu-label">
+                    Genel
+                </p>
+                <ul class="menu-list">
+                    <li><a href="/dashboard"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                    <li><a href="/personel"><i class="fas fa-users"></i> Personel</a></li>
+                    <li><a href="/personel/giris-cikis"><i class="fas fa-clock"></i> Giriş-Çıkış</a></li>
+                    <li><a href="/raporlar"><i class="fas fa-chart-bar"></i> Raporlar</a></li>
+                </ul>
+            </aside>
+        </div>
+        <div class="column main-content">
+            {% block content %}{% endblock %}
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bulma@0.9.3/js/bulma.min.js"></script>
+</body>
+</html> 
