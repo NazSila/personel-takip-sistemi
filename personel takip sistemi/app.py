@@ -256,8 +256,8 @@ def cikis_ekle():
         return redirect(url_for('personel_giris_cikis'))
     return render_template('cikis_ekle.html', girisler=girisler)
 
-if __name__ == '__main__':
-    if not os.path.exists('personel.db'):
-        with app.app_context():
-            db.create_all()
-    app.run(debug=True) 
+#if __name__ == '__main__':
+ #   if not os.path.exists('personel.db'):
+ #       with app.app_context():
+  #          db.create_all()
+ #   app.run(debug=True) 
